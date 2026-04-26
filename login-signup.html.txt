@@ -1,0 +1,179 @@
+login-signup.html
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login/Signup/Course Booking</title>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: "Poppins", sans-serif; }
+
+    body {
+        min-height: 100vh;
+        background: url("image/image.jpg") no-repeat center center/cover;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: relative;
+    }
+
+    body::before {
+        content: "";
+        position: absolute;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
+        background: rgba(0, 0, 0, 0.55);
+        z-index: 0;
+    }
+
+    .container {
+        width: 380px;
+        background: rgba(255,255,255,0.95);
+        border-radius: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        overflow: hidden;
+        padding: 30px;
+        position: relative;
+        z-index: 1;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    h2, h1 { text-align: center; color: #333; margin-bottom: 25px; }
+    p { font-size: 1.2em; color: #555; margin-bottom: 25px; text-align: center; }
+    
+    .form-group { margin-bottom: 15px; }
+    .form-group label { font-size: 14px; color: #333; display: block; margin-bottom: 5px; }
+    .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid #aaa; border-radius: 8px; font-size: 14px; }
+
+    .btn { width: 100%; background: #667eea; border: none; padding: 10px; color: #fff; font-size: 16px; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+    .btn:hover { background: #5a67d8; }
+
+    .toggle { text-align: center; margin-top: 15px; font-size: 14px; }
+    .toggle a { color: #667eea; text-decoration: none; font-weight: 500; }
+    .toggle a:hover { text-decoration: underline; }
+
+    .form-container { display: none; }
+    .form-container.active { display: block; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+    <!-- Login Form -->
+    <div class="form-container active" id="loginForm">
+        <h2>Login</h2>
+        <form action="LoginServlet" method="post">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <button class="btn" type="submit">Login</button>
+            <div class="toggle">
+                Don’t have an account? <a href="#" onclick="showSignup()">Sign Up</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Signup Form -->
+    <div class="form-container" id="signupForm">
+        <h2>Sign Up</h2>
+        <form action="SignupServlet" method="post">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="username" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="Create a password" required>
+            </div>
+            <button class="btn" type="submit">Sign Up</button>
+            <div class="toggle">
+                Already have an account? <a href="#" onclick="showLogin()">Login</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Course Booking Form -->
+    <div class="form-container" id="bookingForm">
+        <h2>Course Booking</h2>
+        <form action="BookingServlet" method="post">
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" name="fullname" placeholder="Enter your full name" required>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="Enter your email" required>
+            </div>
+            <div class="form-group">
+                <label>Course</label>
+                <select name="course" required>
+                    <option value="">Select a course</option>
+                    <option value="Sign Language Basics">Sign Language Basics</option>
+                    <option value="Advanced Sign Language">Advanced Sign Language</option>
+                    <option value="Sign Language for Kids">Sign Language for Kids</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Date</label>
+                <input type="date" name="date" required>
+            </div>
+            <button class="btn" type="submit">Book Course</button>
+            <div class="toggle">
+                Back to <a href="#" onclick="showLogin()">Login/Signup</a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Welcome Message (Optional, after login) -->
+    <div class="form-container" id="welcomeForm">
+        <h1>Welcome! 🎉</h1>
+        <p>You have successfully logged in.</p>
+        <a href="#" class="btn" onclick="showBooking()">Book a Course</a>
+    </div>
+
+</div>
+
+<script>
+    function showSignup() {
+        document.getElementById("loginForm").classList.remove("active");
+        document.getElementById("bookingForm").classList.remove("active");
+        document.getElementById("welcomeForm").classList.remove("active");
+        document.getElementById("signupForm").classList.add("active");
+    }
+
+    function showLogin() {
+        document.getElementById("signupForm").classList.remove("active");
+        document.getElementById("bookingForm").classList.remove("active");
+        document.getElementById("welcomeForm").classList.remove("active");
+        document.getElementById("loginForm").classList.add("active");
+    }
+
+    function showBooking() {
+        document.getElementById("loginForm").classList.remove("active");
+        document.getElementById("signupForm").classList.remove("active");
+        document.getElementById("welcomeForm").classList.remove("active");
+        document.getElementById("bookingForm").classList.add("active");
+    }
+
+    function showWelcome() {
+        document.getElementById("loginForm").classList.remove("active");
+        document.getElementById("signupForm").classList.remove("active");
+        document.getElementById("bookingForm").classList.remove("active");
+        document.getElementById("welcomeForm").classList.add("active");
+    }
+</script>
+
+</body>
+</html>
